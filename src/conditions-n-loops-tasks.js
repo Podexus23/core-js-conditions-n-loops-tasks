@@ -21,8 +21,8 @@
  *  0  => true
  *  -5 => false
  */
-function isPositive(/* number */) {
-  throw new Error('Not implemented');
+function isPositive(n) {
+  return n >= 0;
 }
 
 /**
@@ -38,8 +38,9 @@ function isPositive(/* number */) {
  *  -5, 0, 5      => 5
  *  -0.1, 0, 0.2  => 0.2
  */
-function getMaxNumber(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getMaxNumber(a, b, c) {
+  if (a >= b && a >= c) return a;
+  return b > a && b > c ? b : c;
 }
 
 /**
@@ -60,8 +61,32 @@ function getMaxNumber(/* a, b, c */) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  const MAXSIZE = 8;
+  if (queen.x === king.x) return true;
+  if (queen.y === king.y) return true;
+  if (queen.x / queen.y === 1 && king.x / king.y === 1) return true;
+
+  for (let i = queen.x, j = queen.y; i >= 1 && j <= MAXSIZE; i -= 1, j += 1) {
+    if (i === king.x && j === king.y) return true;
+  }
+
+  for (
+    let i = queen.x, j = queen.y;
+    i <= MAXSIZE && j <= MAXSIZE;
+    i += 1, j += 1
+  ) {
+    if (i === king.x && j === king.y) return true;
+  }
+  for (let i = queen.x, j = queen.y; i <= MAXSIZE && j >= 1; i += 1, j -= 1) {
+    if (i === king.x && j === king.y) return true;
+  }
+
+  for (let i = queen.x, j = queen.y; i >= 1 && j >= 1; i -= 1, j -= 1) {
+    if (i === king.x && j === king.y) return true;
+  }
+
+  return false;
 }
 
 /**
@@ -82,8 +107,20 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  let sides = new Set([a, b, c]);
+  if (sides.size !== 2) return false;
+  if (sides.has(0)) return false;
+  sides = [...sides];
+  let left;
+  let bot;
+  if (sides[0] > sides[1]) {
+    [bot, left] = sides;
+  } else {
+    [left, bot] = sides;
+  }
+  if (bot > left * 2) return false;
+  return true;
 }
 
 /**
