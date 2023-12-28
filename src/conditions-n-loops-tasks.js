@@ -348,8 +348,69 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const [TOP, RIGHT, BOTTOM, LEFT] = [0, 1, 2, 3];
+  const arr = new Array(size);
+  const END = size * size;
+
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = new Array(size);
+  }
+
+  let counter = 1;
+  let layer = 0;
+  let side = TOP;
+
+  while (counter <= END) {
+    if (side === TOP) {
+      const start = counter;
+      for (let i = layer; i < size - layer; i += 1) {
+        for (let j = layer; j < size - layer; j += 1) {
+          arr[i][j] = counter;
+          counter += 1;
+        }
+        if (start < counter) {
+          side = RIGHT;
+          break;
+        }
+      }
+    }
+
+    if (side === RIGHT) {
+      for (let i = 1 + layer; i < size - layer; i += 1) {
+        const j = size - 1 - layer;
+        arr[i][j] = counter;
+        counter += 1;
+      }
+      side = BOTTOM;
+    }
+
+    if (side === BOTTOM) {
+      const start = counter;
+      for (let i = size - 1 - layer; i > 0; i -= 1) {
+        for (let j = size - 2 - layer; j >= 0 + layer; j -= 1) {
+          arr[i][j] = counter;
+          counter += 1;
+        }
+        if (start < counter) {
+          side = LEFT;
+          break;
+        }
+      }
+    }
+
+    if (side === LEFT) {
+      for (let i = size - 2 - layer; i > 0 + layer; i -= 1) {
+        const j = 0 + layer;
+        arr[i][j] = counter;
+        counter += 1;
+      }
+      side = TOP;
+      layer += 1;
+    }
+  }
+
+  return arr;
 }
 
 /**
