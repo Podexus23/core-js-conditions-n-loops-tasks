@@ -428,8 +428,24 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(matrix) {}
+function rotateMatrix(arr) {
+  const side = arr.length;
+  const cheat = arr;
+  const rotated = new Array(side);
+  let i = 0;
 
+  for (i = 0; i < side; i += 1) {
+    const line = new Array(side);
+    for (let j = side - 1, x = 0; j >= 0; j -= 1, x += 1) {
+      line[x] = arr[j][i];
+    }
+    rotated[i] = line;
+  }
+  for (i = 0; i < side; i += 1) {
+    cheat[i] = rotated[i];
+  }
+  return arr;
+}
 /**
  * Sorts an array of numbers in ascending order in place.
  * Employ any sorting algorithm of your choice.
@@ -444,8 +460,56 @@ function rotateMatrix(matrix) {}
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  if (arr.length <= 1) return arr;
+
+  const pivot = arr[arr.length - 1];
+  let left = [];
+  let right = [];
+
+  let indexLeft = 0;
+  let indexRight = 0;
+  let i = 0;
+
+  while (i < arr.length - 1) {
+    if (arr[i] < pivot) {
+      left[indexLeft] = arr[i];
+      indexLeft += 1;
+    }
+    if (arr[i] >= pivot) {
+      right[indexRight] = arr[i];
+      indexRight += 1;
+    }
+    i += 1;
+  }
+
+  if (left.length > 1) {
+    left = sortByAsc(left);
+  }
+
+  if (right.length > 1) {
+    right = sortByAsc(right);
+  }
+
+  const copyArr = [];
+
+  for (i = 0; i < left.length; i += 1) {
+    copyArr[i] = left[i];
+  }
+
+  copyArr[copyArr.length] = pivot;
+
+  const add = copyArr.length;
+  for (i = 0; i < right.length; i += 1) {
+    copyArr[i + add] = right[i];
+  }
+
+  const cheat = arr;
+  for (i = 0; i < copyArr.length; i += 1) {
+    cheat[i] = copyArr[i];
+  }
+
+  return copyArr;
 }
 
 /**
