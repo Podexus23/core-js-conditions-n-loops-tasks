@@ -529,25 +529,35 @@ function sortByAsc(arr) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
+
 function shuffleChar(str, iterations) {
   let resStr = [...str];
-  const half = resStr.length / 2;
+  const half = Math.ceil(resStr.length / 2);
+  let circle = 0;
 
-  for (let j = iterations; j > 0; j -= 1) {
+  for (let j = 1; j <= iterations; j += 1) {
     const sum = [];
     for (let i = 0, counter = 0; counter < half; i += 2, counter += 1) {
       sum[counter] = resStr[i];
-      sum[counter + Math.ceil(half)] = resStr[i + 1];
+      sum[counter + half] = resStr[i + 1];
+    }
+    resStr = sum;
+    if (`${resStr}`.replaceAll(',', '') === str) {
+      circle = j;
+      break;
+    }
+  }
+
+  for (let j = 1; j <= iterations % circle; j += 1) {
+    const sum = [];
+    for (let i = 0, counter = 0; counter < half; i += 2, counter += 1) {
+      sum[counter] = resStr[i];
+      sum[counter + half] = resStr[i + 1];
     }
     resStr = sum;
   }
 
-  let res = '';
-  for (let i = 0; i < resStr.length; i += 1) {
-    res += resStr[i];
-  }
-
-  return res;
+  return `${resStr}`.replaceAll(',', '');
 }
 
 /**
