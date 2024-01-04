@@ -531,32 +531,23 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let resStr = [...str];
+  const half = resStr.length / 2;
 
   for (let j = iterations; j > 0; j -= 1) {
-    const left = [];
-    const right = [];
-    for (let i = 0; i < resStr.length; i += 1) {
-      if (!(i % 2)) {
-        left[left.length] = resStr[i];
-      }
-      if (i % 2) {
-        right[right.length] = resStr[i];
-      }
+    const sum = [];
+    for (let i = 0, counter = 0; counter < half; i += 2, counter += 1) {
+      sum[counter] = resStr[i];
+      sum[counter + Math.ceil(half)] = resStr[i + 1];
     }
-
-    const res = [];
-    for (let i = 0; i < left.length + right.length; i += 1) {
-      if (i < left.length) res[i] = left[i];
-      if (i >= left.length) res[i] = right[i - left.length];
-    }
-
-    resStr = '';
-    for (let i = 0; i < res.length; i += 1) {
-      resStr += res[i];
-    }
+    resStr = sum;
   }
 
-  return resStr;
+  let res = '';
+  for (let i = 0; i < resStr.length; i += 1) {
+    res += resStr[i];
+  }
+
+  return res;
 }
 
 /**
